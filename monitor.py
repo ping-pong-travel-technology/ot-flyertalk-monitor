@@ -1,9 +1,15 @@
+import json
 import os
 import redis
 import requests
 
 from bs4 import BeautifulSoup
 
+WEBHOOK_URL = os.environ.get('WEBHOOK_URL')
+POST_TO_SLACK = (
+    WEBHOOK_URL is not None and
+    os.environ.get('POST_TO_SLACK', 'false').lower() == 'true'
+)
 REDIS_URL = os.environ.get('REDIS_URL')
 if REDIS_URL is not None:
     r = redis.from_url(REDIS_URL)
@@ -35,10 +41,19 @@ thread_data = [
 ]
 for thread in thread_data:
     thread_id = thread['id']
+    thread_title = thread['title']
+    thread_url = thread['url']
 
     if r.exists(thread_id):
         continue
 
-    thread_url = thread['url']
     r.set(thread_id, thread_url)
-    print(f'Added {thread_id} - {URL_PREFIX}{thread_url}')
+
+    full_url = f'{URL_PREFIX}{thread_url}'
+    message = f'David posted to FlyerTalk: {thread_title} - {full_url}'
+    print(message)
+    if POST_TO_SLACK is True:
+        requests.post(
+            WEBHOOK_URL, json.dumps({'text': message}),
+            headers={'content-type': 'application/json'}
+        )
