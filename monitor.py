@@ -1,9 +1,17 @@
-import maya
+import os
+import redis
 import requests
 
 from bs4 import BeautifulSoup
 
-THREADS_URL = 'https://www.flyertalk.com/forum/search.php?do=finduser&u=24793&starteronly=1'  # noqa
+REDIS_URL = os.environ.get('REDIS_URL')
+if REDIS_URL is not None:
+    r = redis.from_url(REDIS_URL)
+else:
+    r = redis.StrictRedis()
+
+URL_PREFIX = 'https://www.flyertalk.com/forum/'
+THREADS_URL = f'{URL_PREFIX}search.php?do=finduser&u=24793&starteronly=1'
 
 response = requests.get(THREADS_URL)
 html = response.content
@@ -26,9 +34,11 @@ thread_data = [
     } for thread in threads
 ]
 for thread in thread_data:
-    started = maya.parse(
-        thread['started'].split(' ', 1)[1]
-    ).datetime().isoformat()
-    title = thread['title']
-    id = thread['id']
-    print(f'{started} - {id} - {title}')
+    thread_id = thread['id']
+
+    if r.exists(thread_id):
+        continue
+
+    thread_url = thread['url']
+    r.set(thread_id, thread_url)
+    print(f'Added {thread_id} - {URL_PREFIX}{thread_url}')
