@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 requests = "*"
 "beautifulsoup4" = "*"
-maya = "*"
 redis = "*"
 
 [dev-packages]
