@@ -1,9 +1,7 @@
 import json
-from pathlib import Path
 from typing import Optional
 
 import requests
-import typer
 from bs4 import BeautifulSoup
 from pydantic import AnyUrl, BaseSettings
 
@@ -16,8 +14,8 @@ class Settings(BaseSettings):
 def main():
     settings = Settings()
 
-    URL_PREFIX = Path("https://www.flyertalk.com/forum/")
-    THREADS_URL = URL_PREFIX / Path("search.php?do=finduser&u=24793&starteronly=1")
+    URL_PREFIX = "https://www.flyertalk.com/forum/"
+    THREADS_URL = f"{URL_PREFIX}search.php?do=finduser&u=24793&starteronly=1"
 
     response = requests.get(str(THREADS_URL))
     html = response.content
@@ -43,11 +41,6 @@ def main():
         thread_title = thread["title"]
         thread_url = thread["url"]
 
-        if r.exists(thread_id):
-            continue
-
-        r.set(thread_id, thread_url)
-
         full_url = f"{URL_PREFIX}{thread_url}"
         message = f"David posted to FlyerTalk: {thread_title} - {full_url}"
         print(message)
@@ -60,4 +53,4 @@ def main():
 
 
 if __name__ == "__main__":
-    typer.run(main)
+    main()
