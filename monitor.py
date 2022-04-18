@@ -1,28 +1,32 @@
 import json
-import os
+from pathlib import Path
+from typing import Optional
 
 import redis
 import requests
 import typer
 from bs4 import BeautifulSoup
+from pydantic import AnyUrl, BaseSettings, RedisDsn
+
+
+class Settings(BaseSettings):
+    WEBHOOK_URL: Optional[AnyUrl]
+    POST_TO_SLACK: bool = False
+    REDIS_URL: Optional[RedisDsn]
 
 
 def main():
-    WEBHOOK_URL = os.environ.get("WEBHOOK_URL")
-    POST_TO_SLACK = (
-        WEBHOOK_URL is not None
-        and os.environ.get("POST_TO_SLACK", "false").lower() == "true"
-    )
-    REDIS_URL = os.environ.get("REDIS_URL")
-    if REDIS_URL is not None:
-        r = redis.from_url(REDIS_URL)
+    settings = Settings()
+
+    if settings.REDIS_URL is not None:
+        r = redis.from_url(settings.REDIS_URL)
     else:
         r = redis.StrictRedis()
 
-    URL_PREFIX = "https://www.flyertalk.com/forum/"
-    THREADS_URL = f"{URL_PREFIX}search.php?do=finduser&u=24793&starteronly=1"
+    URL_PREFIX = Path("https://www.flyertalk.com/forum/")
+    THREADS_URL = URL_PREFIX / Path("search.php?do=finduser&u=24793&starteronly=1")
 
-    response = requests.get(THREADS_URL)
+    response = requests.get(str(THREADS_URL))
     html = response.content
     soup = BeautifulSoup(html, "html.parser")
 
@@ -54,9 +58,9 @@ def main():
         full_url = f"{URL_PREFIX}{thread_url}"
         message = f"David posted to FlyerTalk: {thread_title} - {full_url}"
         print(message)
-        if POST_TO_SLACK is True:
+        if settings.POST_TO_SLACK is True:
             requests.post(
-                WEBHOOK_URL,
+                str(settings.WEBHOOK_URL),
                 json.dumps({"text": message}),
                 headers={"content-type": "application/json"},
             )
