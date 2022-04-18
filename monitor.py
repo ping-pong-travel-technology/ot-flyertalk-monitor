@@ -1,8 +1,8 @@
 import json
 import os
+
 import redis
 import requests
-
 from bs4 import BeautifulSoup
 
 WEBHOOK_URL = os.environ.get("WEBHOOK_URL")
