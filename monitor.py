@@ -10,9 +10,9 @@ from pydantic import AnyUrl, BaseSettings, RedisDsn
 
 
 class Settings(BaseSettings):
-    WEBHOOK_URL: Optional[AnyUrl]
+    WEBHOOK_URL: Optional[AnyUrl] = None
     POST_TO_SLACK: bool = False
-    REDIS_URL: Optional[RedisDsn]
+    REDIS_URL: Optional[RedisDsn] = None
 
 
 def main():
