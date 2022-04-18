@@ -2,26 +2,19 @@ import json
 from pathlib import Path
 from typing import Optional
 
-import redis
 import requests
 import typer
 from bs4 import BeautifulSoup
-from pydantic import AnyUrl, BaseSettings, RedisDsn
+from pydantic import AnyUrl, BaseSettings
 
 
 class Settings(BaseSettings):
     WEBHOOK_URL: Optional[AnyUrl] = None
     POST_TO_SLACK: bool = False
-    REDIS_URL: Optional[RedisDsn] = None
 
 
 def main():
     settings = Settings()
-
-    if settings.REDIS_URL is not None:
-        r = redis.from_url(settings.REDIS_URL)
-    else:
-        r = redis.StrictRedis()
 
     URL_PREFIX = Path("https://www.flyertalk.com/forum/")
     THREADS_URL = URL_PREFIX / Path("search.php?do=finduser&u=24793&starteronly=1")
