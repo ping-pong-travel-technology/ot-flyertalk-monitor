@@ -10,6 +10,8 @@ python = "^3.10"
 requests = "^2.27.1"
 beautifulsoup4 = "^4.11.1"
 redis = "^4.2.2"
+typer = "^0.4.1"
+rich = "^12.2.0"
 
 [tool.poetry.dev-dependencies]
 
