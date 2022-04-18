@@ -6,7 +6,7 @@ authors = ["Josh Ourisman <josh@pingpong.travel>"]
 license = "private"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "~3.9"
 requests = "^2.27.1"
 beautifulsoup4 = "^4.11.1"
 rich = "^12.2.0"
