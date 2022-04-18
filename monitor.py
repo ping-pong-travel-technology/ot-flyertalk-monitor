@@ -3,16 +3,21 @@ from typing import Optional
 
 import requests
 from bs4 import BeautifulSoup
-from pydantic import AnyUrl, BaseSettings
+from faunadb import query as q
+from faunadb.client import FaunaClient
+from pydantic import BaseSettings, HttpUrl
 
 
 class Settings(BaseSettings):
-    WEBHOOK_URL: Optional[AnyUrl] = None
+    FAUNADB_SECRET: str
+    FAUNADB_ENDPOINT: HttpUrl = "https://db.us.fauna.com"
+    WEBHOOK_URL: Optional[HttpUrl] = None
     POST_TO_SLACK: bool = False
 
 
 def main():
     settings = Settings()
+    breakpoint()
 
     URL_PREFIX = "https://www.flyertalk.com/forum/"
     THREADS_URL = f"{URL_PREFIX}search.php?do=finduser&u=24793&starteronly=1"
@@ -41,9 +46,15 @@ def main():
         thread_title = thread["title"]
         thread_url = thread["url"]
 
+        client = FaunaClient(
+            secret=settings.FAUNADB_SECRET,
+            domain=settings.FAUNADB_ENDPOINT.host,
+            port=settings.FAUNADB_ENDPOINT.port,
+            scheme=settings.FAUNADB_ENDPOINT.scheme,
+        )
+
         full_url = f"{URL_PREFIX}{thread_url}"
         message = f"David posted to FlyerTalk: {thread_title} - {full_url}"
-        print(message)
         if settings.POST_TO_SLACK is True:
             requests.post(
                 str(settings.WEBHOOK_URL),
