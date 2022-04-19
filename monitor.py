@@ -42,26 +42,38 @@ def main():
         }
         for thread in threads
     ]
+
+    new = set()
     for thread in thread_data:
         thread_id = thread["id"]
-        thread_title = thread["title"]
-        thread_url = thread["url"]
 
         if thread_id not in db:
             db[thread_id] = thread
+            new.add(thread_id)
 
+    if len(new) > 0:
+        for thread_id in new:
+            thread = db[thread_id]
+            thread_title = thread["title"]
+            thread_url = thread["url"]
             if settings.POST_TO_SLACK is True:
-                requests.post(
-                    str(settings.WEBHOOK_URL),
-                    json.dumps(
-                        {
-                            "text": f"David posted to FlyerTalk: {thread_title} - {thread_url}"
-                        }
-                    ),
-                    headers={"content-type": "application/json"},
-                )
+                try:
+                    requests.post(
+                        str(settings.WEBHOOK_URL),
+                        json.dumps(
+                            {
+                                "text": f"David posted to FlyerTalk: {thread_title} - {thread_url}"
+                            }
+                        ),
+                        headers={"content-type": "application/json"},
+                    )
+                except Exception:
+                    pass
+                else:
+                    thread["notified"] = True
+                    db[thread_id] = thread
 
-        db.commit()
+    db.commit()
 
 
 if __name__ == "__main__":
