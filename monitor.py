@@ -3,14 +3,10 @@ from typing import Optional
 
 import requests
 from bs4 import BeautifulSoup
-from faunadb import query as q
-from faunadb.client import FaunaClient
 from pydantic import BaseSettings, HttpUrl
 
 
 class Settings(BaseSettings):
-    FAUNADB_SECRET: str
-    FAUNADB_ENDPOINT: HttpUrl = "https://db.us.fauna.com"
     WEBHOOK_URL: Optional[HttpUrl] = None
     POST_TO_SLACK: bool = False
 
@@ -45,13 +41,6 @@ def main():
         thread_id = thread["id"]
         thread_title = thread["title"]
         thread_url = thread["url"]
-
-        client = FaunaClient(
-            secret=settings.FAUNADB_SECRET,
-            domain=settings.FAUNADB_ENDPOINT.host,
-            port=settings.FAUNADB_ENDPOINT.port,
-            scheme=settings.FAUNADB_ENDPOINT.scheme,
-        )
 
         full_url = f"{URL_PREFIX}{thread_url}"
         message = f"David posted to FlyerTalk: {thread_title} - {full_url}"
