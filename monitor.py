@@ -38,6 +38,7 @@ def main():
             "url": URL_PREFIX + thread.find(title_link)["href"],
             "started": thread.find_all("div")[4].find_all("span")[-1].string,
             "seen": pendulum.now().to_iso8601_string(),
+            "notified": False,
         }
         for thread in threads
     ]
