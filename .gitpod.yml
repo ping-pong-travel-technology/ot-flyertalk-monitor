@@ -1,0 +1,11 @@
+github:
+  prebuilds:
+    branches: true
+gitConfig:
+  alias.st: status
+tasks:
+  - name: Monitor
+    init: |
+      brew install poetry python@3.9
+      poetry config virtualenvs.in-project true
+      poetry install
