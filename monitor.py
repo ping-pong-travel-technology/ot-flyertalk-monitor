@@ -4,6 +4,9 @@ from typing import Optional
 import requests
 from bs4 import BeautifulSoup
 from pydantic import BaseSettings, HttpUrl
+from sqlitedict import SqliteDict
+
+db = SqliteDict("threads.sqlite", encode=json.dumps, decode=json.loads)
 
 
 class Settings(BaseSettings):
@@ -40,6 +43,14 @@ def main():
         thread_id = thread["id"]
         thread_title = thread["title"]
         thread_url = thread["url"]
+
+        if thread_id not in db:
+            db[thread_id] = thread
+            print(f'Added {thread_id} to db.')
+        else:
+            print(f'{thread_id} already in db')
+
+        db.commit()
 
         full_url = f"{URL_PREFIX}{thread_url}"
         message = f"David posted to FlyerTalk: {thread_title} - {full_url}"
