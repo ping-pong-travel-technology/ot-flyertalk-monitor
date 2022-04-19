@@ -82,6 +82,7 @@ def main():
 
         session.commit()
 
+    console.log(f"Found {len(new)} new thread(s)")
     if settings.POST_TO_SLACK is True and len(new) > 0:
         console.log(f"Sending notifications for {len(new)} thread(s)")
         with Session(engine) as session:
