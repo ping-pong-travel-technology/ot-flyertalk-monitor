@@ -4,8 +4,9 @@ github:
 gitConfig:
   alias.st: status
 tasks:
-  - name: Monitor
-    init: |
-      brew install poetry python@3.9
+  - before: |
+      brew install poetry python@3.9 starship
+      echo 'eval "$(starship init bash)"' >> /home/gitpod/.bashrc
       poetry config virtualenvs.in-project true
-      poetry install
+    init: poetry install
+    command: poetry shell
