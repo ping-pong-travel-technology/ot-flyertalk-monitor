@@ -1,6 +1,7 @@
 import json
 from typing import Optional
 
+import pendulum
 import requests
 from bs4 import BeautifulSoup
 from pydantic import BaseSettings, HttpUrl
@@ -36,6 +37,7 @@ def main():
             "title": thread.find(title_link).string,
             "url": URL_PREFIX + thread.find(title_link)["href"],
             "started": thread.find_all("div")[4].find_all("span")[-1].string,
+            "seen": pendulum.now().to_iso8601_string(),
         }
         for thread in threads
     ]
