@@ -46,20 +46,19 @@ def main():
 
         if thread_id not in db:
             db[thread_id] = thread
-            print(f'Added {thread_id} to db.')
-        else:
-            print(f'{thread_id} already in db')
+
+            if settings.POST_TO_SLACK is True:
+                requests.post(
+                    str(settings.WEBHOOK_URL),
+                    json.dumps(
+                        {
+                            "text": f"David posted to FlyerTalk: {thread_title} - {thread_url}"
+                        }
+                    ),
+                    headers={"content-type": "application/json"},
+                )
 
         db.commit()
-
-        full_url = f"{URL_PREFIX}{thread_url}"
-        message = f"David posted to FlyerTalk: {thread_title} - {full_url}"
-        if settings.POST_TO_SLACK is True:
-            requests.post(
-                str(settings.WEBHOOK_URL),
-                json.dumps({"text": message}),
-                headers={"content-type": "application/json"},
-            )
 
 
 if __name__ == "__main__":
