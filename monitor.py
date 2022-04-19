@@ -4,24 +4,11 @@ from typing import Optional
 import requests
 from bs4 import BeautifulSoup
 from pydantic import BaseSettings, HttpUrl
-from tortoise import fields
-from tortoise.models import Model
 
 
 class Settings(BaseSettings):
     WEBHOOK_URL: Optional[HttpUrl] = None
     POST_TO_SLACK: bool = False
-
-
-class Thread(Model):
-    id = fields.IntField(pk=True)
-    title = fields.TextField()
-    url = fields.TextField()
-    started = fields.DateField()
-    seen = fields.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
 
 
 def main():
