@@ -4,6 +4,8 @@ from typing import Optional
 import requests
 from bs4 import BeautifulSoup
 from pydantic import BaseSettings, HttpUrl
+from tortoise import fields
+from tortoise.models import Model
 
 
 class Settings(BaseSettings):
@@ -11,9 +13,19 @@ class Settings(BaseSettings):
     POST_TO_SLACK: bool = False
 
 
+class Thread(Model):
+    id = fields.IntField(pk=True)
+    title = fields.TextField()
+    url = fields.TextField()
+    started = fields.DateField()
+    seen = fields.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
 def main():
     settings = Settings()
-    breakpoint()
 
     URL_PREFIX = "https://www.flyertalk.com/forum/"
     THREADS_URL = f"{URL_PREFIX}search.php?do=finduser&u=24793&starteronly=1"
@@ -32,7 +44,7 @@ def main():
         {
             "id": thread.find(title_link)["id"].rsplit("_", 1)[1],
             "title": thread.find(title_link).string,
-            "url": thread.find(title_link)["href"],
+            "url": URL_PREFIX + thread.find(title_link)["href"],
             "started": thread.find_all("div")[4].find_all("span")[-1].string,
         }
         for thread in threads
