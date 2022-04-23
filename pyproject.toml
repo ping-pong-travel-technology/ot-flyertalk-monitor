@@ -13,6 +13,8 @@ rich = "^12.2.0"
 pydantic = "^1.9.0"
 pendulum = "^2.1.2"
 sqlmodel = "^0.0.6"
+datasette = "^0.61.1"
+datasette-publish-vercel = "^0.13"
 
 [tool.poetry.dev-dependencies]
 redis = "^4.2.2"
