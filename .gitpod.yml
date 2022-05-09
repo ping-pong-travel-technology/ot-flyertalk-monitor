@@ -5,7 +5,7 @@ gitConfig:
   alias.st: status
 tasks:
   - before: |
-      brew install poetry python@3.9 starship black
+      brew install poetry starship black
       echo 'eval "$(starship init bash)"' >> /home/gitpod/.bashrc
       poetry config virtualenvs.in-project true
     init: poetry install
