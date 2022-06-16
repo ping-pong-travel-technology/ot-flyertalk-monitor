@@ -3,10 +3,13 @@ github:
     branches: true
 gitConfig:
   alias.st: status
+image:
+  file: .gitpod.Dockerfile
 tasks:
-  - before: |
-      brew install poetry starship black
-      echo 'eval "$(starship init bash)"' >> /home/gitpod/.bashrc
+  - init: |
       poetry config virtualenvs.in-project true
-    init: poetry install
-    command: poetry shell
+      poetry install
+      gp sync-done backend
+vscode:
+  extensions:
+    - ms-python.python
