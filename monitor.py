@@ -38,9 +38,10 @@ class Settings(BaseSettings):
 
 app = typer.Typer()
 
+
 @app.command()
-def main():
-    if Path(sqlite_file_name).exists() is False:
+def main(dry_run: bool = False):
+    if dry_run is False and Path(sqlite_file_name).exists() is False:
         create_db_and_tables()
 
     settings = Settings()
