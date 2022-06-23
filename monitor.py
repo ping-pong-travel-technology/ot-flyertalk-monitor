@@ -5,6 +5,7 @@ from typing import Optional
 
 import pendulum
 import requests
+import typer
 from bs4 import BeautifulSoup
 from pydantic import BaseSettings, HttpUrl
 from rich.console import Console
@@ -35,7 +36,13 @@ class Settings(BaseSettings):
     POST_TO_SLACK: bool = False
 
 
+app = typer.Typer()
+
+@app.command()
 def main():
+    if Path(sqlite_file_name).exists() is False:
+        create_db_and_tables()
+
     settings = Settings()
     console = Console()
 
@@ -110,7 +117,4 @@ def main():
 
 
 if __name__ == "__main__":
-    if Path(sqlite_file_name).exists() is False:
-        create_db_and_tables()
-
-    main()
+    app()
