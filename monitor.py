@@ -37,7 +37,7 @@ class Settings(BaseSettings):
     WEBHOOK_URL: Optional[HttpUrl] = None
     POST_TO_SLACK: bool = False
     URL_PREFIX: str = "https://www.flyertalk.com/forum/"
-    PER_PAGE: int = 200
+    PER_PAGE: int = 25
 
 
 app = typer.Typer()
@@ -77,7 +77,7 @@ def main(dry_run: bool = False):
     num_pages = math.ceil(int(num_threads) / settings.PER_PAGE)
 
     console.log(
-        f"Constructing efficient search URLs to fetch all threads in {num_pages} requests"
+        f"Constructing search URLs to fetch all threads in {num_pages} requests"
     )
 
     next_link = soup.find(rel="next")
@@ -86,32 +86,32 @@ def main(dry_run: bool = False):
 
     page_url = "{URL_PREFIX}search.php?searchid={search_id}&pp=200&page={page_num}"
 
+    thread_data = []
     for i in range(num_pages):
         html = fetch_page(
-            f"{settings.URL_PREFIX}search.php?searchid={search_id}&amp;pp={settings.PER_PAGE}&amp;page={i+1}",
+            f"{settings.URL_PREFIX}search.php?searchid={search_id}&pp={settings.PER_PAGE}&page={i+1}",
             console=console,
         )
 
-    return
+        search_soup = BeautifulSoup(html, "html.parser")
 
-    threadslist = soup.find(id="threadslist")
-    threads = threadslist.find_all(class_="trow text-center")
+        threadslist = search_soup.find(id="threadslist")
+        threads = threadslist.find_all(class_="trow text-center")
 
-    def title_link(tag):
-        return tag.has_attr("id") and tag["id"].startswith("thread_title_")
+        def title_link(tag):
+            return tag.has_attr("id") and tag["id"].startswith("thread_title_")
 
-    console.log(f"Processing {len(threads)} threads")
-    thread_data = []
-    for thread in threads:
-        thread_data.append(
-            {
-                "id": thread.find(title_link)["id"].rsplit("_", 1)[1],
-                "title": thread.find(title_link).string,
-                "url": URL_PREFIX + thread.find(title_link)["href"],
-                "started": thread.find_all("div")[4].find_all("span")[-1].string,
-                "seen": pendulum.now(),
-            }
-        )
+        console.log(f"Processing {len(threads)} threads from page {i+1}")
+        for thread in threads:
+            thread_data.append(
+                {
+                    "id": thread.find(title_link)["id"].rsplit("_", 1)[1],
+                    "title": thread.find(title_link).string,
+                    "url": settings.URL_PREFIX + thread.find(title_link)["href"],
+                    "started": thread.find_all("div")[4].find_all("span")[-1].string,
+                    "seen": pendulum.now(),
+                }
+            )
 
     if dry_run is True:
         console.log("Dry run: exiting without saving any changes.")
