@@ -1,4 +1,6 @@
 import json
+import math
+import re
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
@@ -34,9 +36,21 @@ def create_db_and_tables():
 class Settings(BaseSettings):
     WEBHOOK_URL: Optional[HttpUrl] = None
     POST_TO_SLACK: bool = False
+    URL_PREFIX: str = "https://www.flyertalk.com/forum/"
+    PER_PAGE: int = 200
 
 
 app = typer.Typer()
+
+
+def fetch_page(url, console=None):
+    settings = Settings()
+
+    if console is not None:
+        console.log(f"Fetching: {url}")
+
+    response = requests.get(url)
+    return response.content
 
 
 @app.command()
@@ -47,15 +61,38 @@ def main(dry_run: bool = False):
     settings = Settings()
     console = Console()
 
-    console.log("Fetching threads from https://www.flyertalk.com/")
-    URL_PREFIX = "https://www.flyertalk.com/forum/"
-    THREADS_URL = f"{URL_PREFIX}search.php?do=finduser&u=24793&starteronly=1"
+    console.log("Searching for threads on Flyer Talk")
+    THREADS_URL = f"{settings.URL_PREFIX}search.php?do=finduser&u=24793&starteronly=1"
 
-    response = requests.get(str(THREADS_URL))
+    html = fetch_page(str(THREADS_URL), console=console)
 
-    console.log("Parsing HTML data for threads")
-    html = response.content
     soup = BeautifulSoup(html, "html.parser")
+    results_title = soup.find(title=re.compile("Showing results"))
+    total_results = re.match(
+        "Showing results \d+ to \d+ of (?P<total>\d+)", results_title.attrs["title"]
+    )
+    num_threads = total_results.group("total")
+    console.log(f"Found {num_threads} threads.")
+
+    num_pages = math.ceil(int(num_threads) / settings.PER_PAGE)
+
+    console.log(
+        f"Constructing efficient search URLs to fetch all threads in {num_pages} requests"
+    )
+
+    next_link = soup.find(rel="next")
+    next_url = next_link.attrs["href"]
+    search_id = re.search("searchid=(?P<searchid>\d+)", next_url).group("searchid")
+
+    page_url = "{URL_PREFIX}search.php?searchid={search_id}&pp=200&page={page_num}"
+
+    for i in range(num_pages):
+        html = fetch_page(
+            f"{settings.URL_PREFIX}search.php?searchid={search_id}&amp;pp={settings.PER_PAGE}&amp;page={i+1}",
+            console=console,
+        )
+
+    return
 
     threadslist = soup.find(id="threadslist")
     threads = threadslist.find_all(class_="trow text-center")
