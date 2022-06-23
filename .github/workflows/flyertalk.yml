@@ -34,5 +34,5 @@ jobs:
             timestamp=$(date -u)
             git commit -m "Latest thread data: ${timestamp}" || exit 0
             git push
+            poetry run datasette publish vercel threads.db --token $VERCEL_TOKEN --project ot-flyertalk-monitor
           fi
-          poetry run datasette publish vercel threads.db --token $VERCEL_TOKEN --project ot-flyertalk-monitor
