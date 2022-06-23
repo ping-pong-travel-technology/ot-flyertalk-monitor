@@ -77,6 +77,7 @@ def main(dry_run: bool = False):
         )
 
     if dry_run is True:
+        console.log("Dry run: exiting without saving any changes.")
         return
 
     new = set()
