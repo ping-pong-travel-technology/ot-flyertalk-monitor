@@ -76,6 +76,9 @@ def main(dry_run: bool = False):
             }
         )
 
+    if dry_run is True:
+        return
+
     new = set()
     with Session(engine) as session:
         console.log("Checking database for existing threads")
