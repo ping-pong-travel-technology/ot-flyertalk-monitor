@@ -84,8 +84,6 @@ def main(dry_run: bool = False):
     next_url = next_link.attrs["href"]
     search_id = re.search("searchid=(?P<searchid>\d+)", next_url).group("searchid")
 
-    page_url = "{URL_PREFIX}search.php?searchid={search_id}&pp=200&page={page_num}"
-
     thread_data = []
     for i in range(num_pages):
         html = fetch_page(
