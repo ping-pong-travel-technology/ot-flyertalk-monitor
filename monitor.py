@@ -18,7 +18,7 @@ class Thread(SQLModel, table=True):
     id: int = Field(default=None, primary_key=True)
     title: str
     url: str
-    started: str
+    started: datetime
     seen: Optional[datetime]
     notified: Optional[bool] = False
 
@@ -106,7 +106,11 @@ def main(dry_run: bool = False):
                     "id": thread.find(title_link)["id"].rsplit("_", 1)[1],
                     "title": thread.find(title_link).string,
                     "url": settings.URL_PREFIX + thread.find(title_link)["href"],
-                    "started": thread.find_all("div")[4].find_all("span")[-1].string,
+                    "started": pendulum.parse(
+                        thread.find_all("div")[4].find_all("span")[-1].string,
+                        strict=False,
+                        tz="America/New_York",
+                    ),
                     "seen": pendulum.now(),
                 }
             )
