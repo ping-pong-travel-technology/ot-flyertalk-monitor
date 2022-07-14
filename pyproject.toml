@@ -14,7 +14,7 @@ pydantic = "^1.9.1"
 pendulum = "^2.1.2"
 sqlmodel = "^0.0.6"
 datasette = "^0.61.1"
-datasette-publish-vercel = "^0.13"
+datasette-publish-vercel = "^0.14"
 typer = "^0.5.0"
 
 [tool.poetry.dev-dependencies]
