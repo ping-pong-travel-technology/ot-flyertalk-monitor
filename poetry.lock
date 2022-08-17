@@ -150,9 +150,9 @@ PyYAML = ">=5.3,<7.0"
 uvicorn = ">=0.11,<1.0"
 
 [package.extras]
-test = ["cogapp (>=3.3.0)", "trustme (>=0.7,<0.10)", "pytest-timeout (>=1.4.2,<2.2)", "blacken-docs (==1.12.1)", "black (==22.6.0)", "beautifulsoup4 (>=4.8.1,<4.12.0)", "pytest-asyncio (>=0.17,<0.20)", "pytest-xdist (>=2.2.1,<2.6)", "pytest (>=5.2.2,<7.2.0)"]
+docs = ["furo (==2022.6.21)", "sphinx-autobuild", "codespell", "blacken-docs", "sphinx-copybutton"]
 rich = ["rich"]
-docs = ["sphinx-copybutton", "blacken-docs", "codespell", "sphinx-autobuild", "furo (==2022.6.21)"]
+test = ["pytest (>=5.2.2,<7.2.0)", "pytest-xdist (>=2.2.1,<2.6)", "pytest-asyncio (>=0.17,<0.20)", "beautifulsoup4 (>=4.8.1,<4.12.0)", "black (==22.6.0)", "blacken-docs (==1.12.1)", "pytest-timeout (>=1.4.2,<2.2)", "trustme (>=0.7,<0.10)", "cogapp (>=3.3.0)"]
 
 [[package]]
 name = "datasette-publish-vercel"
@@ -170,7 +170,7 @@ test = ["pytest"]
 
 [[package]]
 name = "flake8"
-version = "5.0.3"
+version = "5.0.4"
 description = "the modular source code checker: pep8 pyflakes and co"
 category = "dev"
 optional = false
@@ -614,7 +614,7 @@ standard = ["websockets (>=10.0)", "httptools (>=0.4.0)", "watchgod (>=0.6)", "p
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.10"
-content-hash = "e689cc4d1e048c2743d749774503155fe7b1c0ff6e3398145a1ced0ede05fc82"
+content-hash = "b536412c69b0f84ff8e1f6ca8dc96e7456536a5a98ef3e59ec463db62d2e6f39"
 
 [metadata.files]
 aiofiles = [
@@ -670,8 +670,8 @@ datasette-publish-vercel = [
     {file = "datasette_publish_vercel-0.14.1-py3-none-any.whl", hash = "sha256:ddafcdde4e5b3d46a170ca5ba71c2a51d8330c8839b47450eb1ecf662c56e0be"},
 ]
 flake8 = [
-    {file = "flake8-5.0.3-py2.py3-none-any.whl", hash = "sha256:93aa565ae2f0316b95bb57a354f2b2d55ee8508e1fe1cb13b77b9c195b4a2537"},
-    {file = "flake8-5.0.3.tar.gz", hash = "sha256:b27fd7faa8d90aaae763664a489012292990388e5d3604f383b290caefbbc922"},
+    {file = "flake8-5.0.4-py2.py3-none-any.whl", hash = "sha256:7a1cf6b73744f5806ab95e526f6f0d8c01c66d7bbe349562d22dfca20610b248"},
+    {file = "flake8-5.0.4.tar.gz", hash = "sha256:6fbe320aad8d6b95cec8b8e47bc933004678dc63095be98528b7bdd2a9f510db"},
 ]
 greenlet = [
     {file = "greenlet-1.1.2-cp27-cp27m-macosx_10_14_x86_64.whl", hash = "sha256:58df5c2a0e293bf665a51f8a100d3e9956febfbf1d9aaf8c0677cf70218910c6"},
