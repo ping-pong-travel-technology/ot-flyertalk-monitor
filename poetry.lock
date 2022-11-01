@@ -81,7 +81,7 @@ optional = false
 python-versions = ">=3.5.0"
 
 [package.extras]
-unicode_backport = ["unicodedata2"]
+unicode-backport = ["unicodedata2"]
 
 [[package]]
 name = "click"
@@ -126,33 +126,33 @@ test = ["flake8 (==3.7.8)", "hypothesis (==3.55.3)"]
 
 [[package]]
 name = "datasette"
-version = "0.62"
+version = "0.63"
 description = "An open source multi-tool for exploring and publishing data"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 
 [package.dependencies]
-aiofiles = ">=0.4,<0.9"
+aiofiles = ">=0.4"
 asgi-csrf = ">=0.9"
-asgiref = ">=3.2.10,<3.6.0"
-click = ">=7.1.1,<8.2.0"
+asgiref = ">=3.2.10"
+click = ">=7.1.1"
 click-default-group-wheel = ">=1.2.2"
 httpx = ">=0.20"
-hupper = ">=1.9,<2.0"
-itsdangerous = ">=1.1,<3.0"
-janus = ">=0.6.2,<1.1"
-Jinja2 = ">=2.10.3,<3.1.0"
-mergedeep = ">=1.1.1,<1.4.0"
-pint = ">=0.9,<1.0"
-pluggy = ">=1.0,<1.1"
-PyYAML = ">=5.3,<7.0"
-uvicorn = ">=0.11,<1.0"
+hupper = ">=1.9"
+itsdangerous = ">=1.1"
+janus = ">=0.6.2"
+Jinja2 = ">=2.10.3"
+mergedeep = ">=1.1.1"
+pint = ">=0.9"
+pluggy = ">=1.0"
+PyYAML = ">=5.3"
+uvicorn = ">=0.11"
 
 [package.extras]
-docs = ["blacken-docs", "codespell", "furo (==2022.6.21)", "sphinx-autobuild", "sphinx-copybutton"]
+docs = ["blacken-docs", "codespell", "furo (==2022.9.29)", "sphinx-autobuild", "sphinx-copybutton"]
 rich = ["rich"]
-test = ["beautifulsoup4 (>=4.8.1,<4.12.0)", "black (==22.6.0)", "blacken-docs (==1.12.1)", "cogapp (>=3.3.0)", "pytest (>=5.2.2,<7.2.0)", "pytest-asyncio (>=0.17,<0.20)", "pytest-timeout (>=1.4.2,<2.2)", "pytest-xdist (>=2.2.1,<2.6)", "trustme (>=0.7,<0.10)"]
+test = ["beautifulsoup4 (>=4.8.1)", "black (==22.10.0)", "blacken-docs (==1.12.1)", "cogapp (>=3.3.0)", "pytest (>=5.2.2)", "pytest-asyncio (>=0.17)", "pytest-timeout (>=1.4.2)", "pytest-xdist (>=2.2.1)", "trustme (>=0.7)"]
 
 [[package]]
 name = "datasette-publish-vercel"
@@ -446,7 +446,7 @@ urllib3 = ">=1.21.1,<1.27"
 
 [package.extras]
 socks = ["PySocks (>=1.5.6,!=1.5.7)"]
-use_chardet_on_py3 = ["chardet (>=3.0.2,<6)"]
+use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "rfc3986"
@@ -517,19 +517,19 @@ aiomysql = ["aiomysql", "greenlet (!=0.4.17)"]
 aiosqlite = ["aiosqlite", "greenlet (!=0.4.17)", "typing_extensions (!=3.10.0.1)"]
 asyncio = ["greenlet (!=0.4.17)"]
 asyncmy = ["asyncmy (>=0.2.3,!=0.2.4)", "greenlet (!=0.4.17)"]
-mariadb_connector = ["mariadb (>=1.0.1)"]
+mariadb-connector = ["mariadb (>=1.0.1)"]
 mssql = ["pyodbc"]
-mssql_pymssql = ["pymssql"]
-mssql_pyodbc = ["pyodbc"]
+mssql-pymssql = ["pymssql"]
+mssql-pyodbc = ["pyodbc"]
 mypy = ["mypy (>=0.910)", "sqlalchemy2-stubs"]
 mysql = ["mysqlclient (>=1.4.0)", "mysqlclient (>=1.4.0,<2)"]
-mysql_connector = ["mysql-connector-python"]
+mysql-connector = ["mysql-connector-python"]
 oracle = ["cx_oracle (>=7)", "cx_oracle (>=7,<8)"]
 postgresql = ["psycopg2 (>=2.7)"]
-postgresql_asyncpg = ["asyncpg", "greenlet (!=0.4.17)"]
-postgresql_pg8000 = ["pg8000 (>=1.16.6)"]
-postgresql_psycopg2binary = ["psycopg2-binary"]
-postgresql_psycopg2cffi = ["psycopg2cffi"]
+postgresql-asyncpg = ["asyncpg", "greenlet (!=0.4.17)"]
+postgresql-pg8000 = ["pg8000 (>=1.16.6)"]
+postgresql-psycopg2binary = ["psycopg2-binary"]
+postgresql-psycopg2cffi = ["psycopg2cffi"]
 pymysql = ["pymysql", "pymysql (<1)"]
 sqlcipher = ["sqlcipher3_binary"]
 
@@ -614,7 +614,7 @@ standard = ["PyYAML (>=5.1)", "colorama (>=0.4)", "httptools (>=0.4.0)", "python
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.10"
-content-hash = "41d4c28df64cfe78bfd0a5575b4be09749094f053fbd2f0dbe57ed42037df3e1"
+content-hash = "7de9b64e8bc6d83f88608af02c55da6fc18bc8d8a2ce23e6f3da3707d10bdd55"
 
 [metadata.files]
 aiofiles = [
@@ -662,8 +662,8 @@ commonmark = [
     {file = "commonmark-0.9.1.tar.gz", hash = "sha256:452f9dc859be7f06631ddcb328b6919c67984aca654e5fefb3914d54691aed60"},
 ]
 datasette = [
-    {file = "datasette-0.62-py3-none-any.whl", hash = "sha256:9571faceef182194bde4276c6b420146552ef41dbeeaf43ba66ce54467c77793"},
-    {file = "datasette-0.62.tar.gz", hash = "sha256:f719c9148970ed20f565b0a3d8461060fc3748674a1556d63afd058a06d136d5"},
+    {file = "datasette-0.63-py3-none-any.whl", hash = "sha256:e64027e075887ba07c88b32090d766eda5dd4812aebd97ee81b6bf050647fa5c"},
+    {file = "datasette-0.63.tar.gz", hash = "sha256:6b07aac658478af933aaa83cbbd31c91581dab32ebbdd6c227b47db4fa3d1f3f"},
 ]
 datasette-publish-vercel = [
     {file = "datasette-publish-vercel-0.14.2.tar.gz", hash = "sha256:9632bbed0012941bf171510ea39d79ae8db0977d99300f1c36b176ea00cc05d5"},
