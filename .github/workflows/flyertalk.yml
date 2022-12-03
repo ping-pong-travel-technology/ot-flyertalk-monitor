@@ -28,6 +28,7 @@ jobs:
         run: |
           if ! git diff --quiet
           then
+            echo "New threads detected." >> $GITHUB_STEP_SUMMARY
             git config user.name "Automated"
             git config user.email "actions@users.noreply.github.com"
             git add -A
@@ -35,4 +36,6 @@ jobs:
             git commit -m "Latest thread data: ${timestamp}" || exit 0
             git push
             poetry run datasette publish vercel threads.db --token $VERCEL_TOKEN --project ot-flyertalk-monitor
+          else
+            echo "No new threads detected." >> $GITHUB_STEP_SUMMARY
           fi
