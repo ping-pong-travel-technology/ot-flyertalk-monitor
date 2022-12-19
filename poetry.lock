@@ -126,7 +126,7 @@ test = ["flake8 (==3.7.8)", "hypothesis (==3.55.3)"]
 
 [[package]]
 name = "datasette"
-version = "0.63.2"
+version = "0.63.3"
 description = "An open source multi-tool for exploring and publishing data"
 category = "main"
 optional = false
@@ -662,8 +662,8 @@ commonmark = [
     {file = "commonmark-0.9.1.tar.gz", hash = "sha256:452f9dc859be7f06631ddcb328b6919c67984aca654e5fefb3914d54691aed60"},
 ]
 datasette = [
-    {file = "datasette-0.63.2-py3-none-any.whl", hash = "sha256:55a1783686754f90dc99555631d86ea16c6e9a193fe9d7caba8bbffd431d3c98"},
-    {file = "datasette-0.63.2.tar.gz", hash = "sha256:4b6c593e9d5b9aab3eb86bb0a18b5e4eaaec24bf17e7ddf1c763afcce8d23dac"},
+    {file = "datasette-0.63.3-py3-none-any.whl", hash = "sha256:50379a3ef352e108fc31ef8c89fc632b6bad4ef7d3e2e6c3b40fba78e9ee5faf"},
+    {file = "datasette-0.63.3.tar.gz", hash = "sha256:fc6a37c73d0d08e9240211a24893eb09886b84427be1ad2295a67be231175af3"},
 ]
 datasette-publish-vercel = [
     {file = "datasette-publish-vercel-0.14.2.tar.gz", hash = "sha256:9632bbed0012941bf171510ea39d79ae8db0977d99300f1c36b176ea00cc05d5"},
