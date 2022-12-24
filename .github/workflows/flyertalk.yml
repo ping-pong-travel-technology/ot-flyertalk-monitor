@@ -2,8 +2,8 @@ name: Fetch latest thread data
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0,30 9-23 * * 1-5"
+  # schedule:
+  #   - cron: "0,30 9-23 * * 1-5"
 
 jobs:
   scheduled:
