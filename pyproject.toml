@@ -13,7 +13,7 @@ rich = "^13.0.1"
 pydantic = "^1.10.4"
 pendulum = "^2.1.2"
 sqlmodel = "^0.0.8"
-datasette = "^0.63"
+datasette = "^0.64"
 datasette-publish-vercel = "^0.14"
 typer = "^0.7.0"
 
