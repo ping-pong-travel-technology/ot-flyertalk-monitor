@@ -18,7 +18,7 @@ datasette-publish-vercel = "^0.14"
 typer = "^0.9.0"
 
 [tool.poetry.dev-dependencies]
-flake8 = "^6.0.0"
+flake8 = "^7.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
